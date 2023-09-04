@@ -11,7 +11,6 @@ function Navbar() {
                 <ul className="navbar-nav flex-grow-1">
                     <NavLink to="/" text="ShoelessJoe" />
                     <NavLink to="/account/register" text="Register" />
-                    <NavLink to="/account/login" text="Login" />
                 </ul>
             </div>
         </nav>
