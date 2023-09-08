@@ -1,9 +1,12 @@
 import { useState } from "react";
 import InputButton from "../../Form/InputButton";
 import InputField from "../../Form/InputField";
-import { validateConfirmValues, validateEmail, validatePhoneNumber, validateStrings } from "../../../Validators/Validate";
+import { validateConfirmValues, validateEmail, validatePhoneNumber, validateStrings } from "../../../Validators/Validate.ts";
 import { setTitle } from "../../../PageHelper";
-import { clearSpanErrors } from "../../Form/FormHelper";
+import { clearSpanErrors, resetFormValues } from "../../Form/FormHelper";
+import { Errors } from "../../../Models/Errrors.ts";
+import { create } from "../../../API/Api.ts";
+import { RegisterModel } from "../../../Models/RegisterModel.ts";
 
 const Register = () => {
     const [firstName, setFirstName] = useState('');
@@ -30,18 +33,14 @@ const Register = () => {
     const lastNameText = 'Last Name';
     const passwordText = 'Password';
     const confirmPasswordText = 'Confirm Passowrd';
-    var errors = {};
+    var errors = new Errors();
 
     setTitle('Register or Sign up');
 
     function registerSubmit(e) {
-        const passwordInput = document.getElementById('txtPassword');
-        const confirmPasswordInput = document.getElementById('txtConfirmPassword');
-
         e.preventDefault();
 
         clearSpanErrors();
-        errors.hasError = false;
         validateStrings(errors, firstName, fistNameText, fNameSpan);
 
         validateStrings(errors, lastName, lastNameText, lNameSpan);
@@ -53,13 +52,19 @@ const Register = () => {
         validateStrings(errors,password, passwordText, passwordSpan, 20);
 
         validateConfirmValues(errors, passwordText, confirmPasswordText, password, confirmPassword, confirmPasswordSpan);
+        
 
         if (!errors.hasError) {
-            alert('there are no errors');
-        }
+            let model = new RegisterModel(firstName, lastName, email, phoneNum, password, confirmPassword);
+            create(model);
+            resetFormValues();
+        } else {
+            const passwordInput = document.getElementById('txtPassword');
+            const confirmPasswordInput = document.getElementById('txtConfirmPassword');
 
-        passwordInput.value = '';
-        confirmPasswordInput.value = '';
+            passwordInput.value = '';
+            confirmPasswordInput.value = '';
+        }
     }
 
     function loginSubmit(e) {
@@ -91,7 +96,7 @@ const Register = () => {
                 </div>
 
                 <div className="col-md-6">
-                <h1>Sing in</h1>
+                <h1>Sign in</h1>
                 </div>
             </div>
             <hr />
