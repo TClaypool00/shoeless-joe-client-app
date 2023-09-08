@@ -2,6 +2,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from './components/Pages/Home';
 import Register from './components/Pages/Account/Register';
 import Navbar from "./components/NavBar/Navbar";
+import PrivateRotue from "./Routes/PrivateRoute";
+import PublicRoute from "./Routes/PublicRoute";
 
 
 function App() {
@@ -16,8 +18,13 @@ function App() {
 
           <BrowserRouter>
             <Routes>
-              <Route index element={<Home />} />
-              <Route path="account/register" element={<Register />} />
+              <Route  element={<PrivateRotue />}>
+                <Route index element={<Home />} />
+              </Route>
+
+              <Route element={<PublicRoute />}>
+                <Route path="account/register" element={<Register />} />
+              </Route>
             </Routes>
           </BrowserRouter>
         </div>
