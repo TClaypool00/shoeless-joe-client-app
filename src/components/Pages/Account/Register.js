@@ -5,8 +5,10 @@ import { validateConfirmValues, validateEmail, validatePhoneNumber, validateStri
 import { setTitle } from "../../../PageHelper";
 import { clearSpanErrors, resetFormValues } from "../../Form/FormHelper";
 import { Errors } from "../../../Models/Errrors.ts";
-import { create } from "../../../API/Api.ts";
+import { create, login } from "../../../API/Api.ts";
 import { RegisterModel } from "../../../Models/RegisterModel.ts";
+import { LoginModel } from "../../../Models/LoginModel.ts";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
     const [firstName, setFirstName] = useState('');
@@ -34,6 +36,7 @@ const Register = () => {
     const passwordText = 'Password';
     const confirmPasswordText = 'Confirm Passowrd';
     var errors = new Errors();
+    const navigate = useNavigate();
 
     setTitle('Register or Sign up');
 
@@ -54,7 +57,7 @@ const Register = () => {
         validateConfirmValues(errors, passwordText, confirmPasswordText, password, confirmPassword, confirmPasswordSpan);
         
 
-        if (!errors.hasError) {
+        if (errors.hasError) {
             let model = new RegisterModel(firstName, lastName, email, phoneNum, password, confirmPassword);
             create(model);
             resetFormValues();
@@ -80,13 +83,11 @@ const Register = () => {
         validateStrings(errors, loginPassword, 'Password', loginPasswordSpan);
 
         if (!errors.hasError) {
-            alert('there no errors');
+            let model = new LoginModel(loginEmail, loginPassword);
+            login(model, navigate);
         } else {
-            alert('there are errors');
+            loginPasswordElement.value = '';
         }
-
-        loginPasswordElement.value = '';
-
     }
     return (
         <>
