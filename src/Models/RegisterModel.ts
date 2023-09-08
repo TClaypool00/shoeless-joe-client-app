@@ -1,5 +1,10 @@
-export class RegisterModel {
+import { LoginModel } from "./LoginModel.ts"
+
+export class RegisterModel extends LoginModel {
+    
     constructor(firstName : string, lastName : string, email : string, phoneNumber : string, password : string, confirmPassword : string) {
+        super(email, password);
+
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -12,11 +17,7 @@ export class RegisterModel {
 
     public lastName: string | null;
 
-    public email: string | null;
-
     public PhoneNumb : string | null;
-
-    public password : string | null;
 
     public confirmPassword : string | null;
 }
