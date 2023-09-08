@@ -14,3 +14,20 @@ export function clearSpanErrors(formIndex = null) {
         }
     }
 }
+
+export function resetFormValues(formIndex = null) {
+    if (formIndex === null) {
+        formIndex = 0;
+    }
+
+    const form = document.getElementsByTagName('form')[0];
+    const inputs = form.getElementsByTagName('input');
+
+    for (let i = 0; i < inputs.length; i++) {
+        const element = inputs[i];
+        
+        if (element.value !== '' || element.value !== null) {
+            element.value = '';
+        }
+    }
+}
