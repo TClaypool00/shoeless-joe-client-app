@@ -9,6 +9,11 @@ function App() {
     <>
       <Navbar />
         <div className="container">
+          <p id="errorMessage" className="text-danger"></p>
+          <p id="successMesage" className="text-success"></p>
+
+          <ul id="ulErrors" className="text-danger"></ul>
+
           <BrowserRouter>
             <Routes>
               <Route index element={<Home />} />
